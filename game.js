@@ -13,15 +13,15 @@ var currentScore = 0;
 var winningScore = 10;
 
 // add collectable items to the game
-function addItems() {
+function addItems(rand,rand2) {
   items = game.add.physicsGroup();
-  createItem(375, 300, "coin");
+  createItem(rand+75, rand2-50, "coin");
 }
 
 // add platforms to the game
-function addPlatforms() {
+function addPlatforms(rand,rand2) {
   platforms = game.add.physicsGroup();
-  platforms.create(450, 150, "platform");
+  platforms.create(rand, rand2, "platform");
   platforms.setAll("body.immovable", true);
 }
 
@@ -70,6 +70,7 @@ window.onload = function () {
 
     //Load images
     game.load.image("platform", "assets/platform_1.png");
+    
 
     //Load spritesheets
     game.load.spritesheet("player", "assets/chalkers.png", 48, 62);
@@ -86,8 +87,13 @@ window.onload = function () {
     player.body.collideWorldBounds = true;
     player.body.gravity.y = 500;
 
-    addItems();
-    addPlatforms();
+    for(var i = 0; i < 9; i++){
+      var rand = Math.random()*500+100;
+      var rand2 = Math.random()*450+100;
+      addItems(rand,rand2);
+      addPlatforms(rand,rand2);
+    }
+    
 
     cursors = game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -128,8 +134,7 @@ window.onload = function () {
     }
 
     if (
-      jumpButton.isDown &&
-      (player.body.onFloor() || player.body.touching.down)
+      jumpButton.isDown
     ) {
       player.body.velocity.y = -400;
     }
