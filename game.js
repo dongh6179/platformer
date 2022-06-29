@@ -21,7 +21,7 @@ function addItems(rand,rand2) {
 // add platforms to the game
 function addPlatforms(rand,rand2) {
   platforms = game.add.physicsGroup();
-  platforms.create(rand, rand2, "platform");
+  platforms.create(rand, rand2, "platform"+Math.round(Math.random()));
   platforms.setAll("body.immovable", true);
 }
 
@@ -69,7 +69,8 @@ window.onload = function () {
     game.stage.backgroundColor = "#5db1ad";
 
     //Load images
-    game.load.image("platform", "assets/platform_1.png");
+    game.load.image("platform0", "assets/platform_1.png");
+    game.load.image("platform1", "assets/platform_2.png");
     
 
     //Load spritesheets
