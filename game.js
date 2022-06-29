@@ -11,17 +11,28 @@ var winningMessage;
 var won = false;
 var currentScore = 0;
 var winningScore = 10;
+var array = [];
+var array2 = [];
+
+for(var i = 0; i < 9; i++){
+  array.push(Math.random()*500+100);
+  array2.push(Math.random()*450+100);
+}
 
 // add collectable items to the game
-function addItems(rand,rand2) {
+function addItems() {
   items = game.add.physicsGroup();
-  createItem(rand+75, rand2-50, "coin");
+  for(var i = 0; i < 9; i++){
+    createItem(array[i]+75, array2[i]-50, "coin");
+  }
 }
 
 // add platforms to the game
-function addPlatforms(rand,rand2) {
+function addPlatforms() {
   platforms = game.add.physicsGroup();
-  platforms.create(rand, rand2, "platform"+Math.round(Math.random()));
+  for(var i = 0; i < 9; i++){
+    platforms.create(array[i], array2[i], "platform"+Math.round(Math.random()));
+  }
   platforms.setAll("body.immovable", true);
 }
 
@@ -88,12 +99,11 @@ window.onload = function () {
     player.body.collideWorldBounds = true;
     player.body.gravity.y = 500;
 
-    for(var i = 0; i < 9; i++){
-      var rand = Math.random()*500+100;
-      var rand2 = Math.random()*450+100;
-      addItems(rand,rand2);
-      addPlatforms(rand,rand2);
-    }
+    //for(var i = 0; i < 9; i++){
+      
+      addItems();
+      addPlatforms();
+    //}
     
 
     cursors = game.input.keyboard.createCursorKeys();
