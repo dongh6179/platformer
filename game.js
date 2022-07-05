@@ -70,7 +70,7 @@ function itemHandler(player, item) {
   else{
     currentScore = currentScore - 10;
   }
-  if (currentScore === winningScore && cookie == 0 && lose != true) {
+  if (currentScore >= winningScore && cookie == 0 && lose != true) {
     cookie = 1;
     createBadge();
   }
