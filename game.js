@@ -8,11 +8,12 @@ var cursors;
 var jumpButton;
 var text;
 var winningMessage;
-var won = false;
+var won = false, lose = false;
 var currentScore = 0;
 var winningScore = 10;
 var array = [];
 var array2 = [];
+var cookie = 0;
 
 for(var i = 0; i < 9; i++){
   array.push(Math.random()*500+100);
@@ -22,9 +23,15 @@ for(var i = 0; i < 9; i++){
 // add collectable items to the game
 function addItems() {
   items = game.add.physicsGroup();
+  var count = 0;
   for(var i = 0; i < 9; i++){
     createItem(array[i]+75, array2[i]-50, "coin");
+    if(count < 6){
+      createItem(array[count]+Math.random()*50+3, array2[count]-Math.random()*50+3, "poison");
+      count+=2;
+    }
   }
+  createItem(50, 50, "star");
 }
 
 // add platforms to the game
@@ -54,9 +61,21 @@ function createBadge() {
 // when the player collects an item on the screen
 function itemHandler(player, item) {
   item.kill();
-  currentScore = currentScore + 10;
-  if (currentScore === winningScore) {
+  if(item.key == "star"){
+    currentScore = currentScore + 25;
+  }
+  else if(item.key == "coin"){
+    currentScore = currentScore + 10;
+  }
+  else{
+    currentScore = currentScore - 10;
+  }
+  if (currentScore === winningScore && cookie == 0 && lose != true) {
+    cookie = 1;
     createBadge();
+  }
+  if(currentScore < 0){
+    lose = true;
   }
 }
 
@@ -88,6 +107,8 @@ window.onload = function () {
     game.load.spritesheet("player", "assets/chalkers.png", 48, 62);
     game.load.spritesheet("coin", "assets/coin.png", 36, 44);
     game.load.spritesheet("badge", "assets/badge.png", 42, 54);
+    game.load.spritesheet("poison", "assets/poison.png", 32, 32);
+    game.load.spritesheet("star", "assets/star.png", 32, 32);
   }
 
   // initial game set up
@@ -152,6 +173,9 @@ window.onload = function () {
     // when the player winw the game
     if (won) {
       winningMessage.text = "YOU WIN!!!";
+    }
+    if(lose){
+      winningMessage.text = "GAME OVER";
     }
   }
 
